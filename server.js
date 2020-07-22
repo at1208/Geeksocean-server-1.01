@@ -12,11 +12,13 @@ const userRoutes = require('./routes/user');
 const categoryRoutes = require('./routes/category');
 const tagRoutes = require('./routes/tag');
 const formRoutes = require('./routes/form');
-const keywordRoutes = require('./routes/keyword');
 const draftRoutes = require('./routes/draft');
-const popularRoutes = require('./routes/popular');
 const faqRoutes = require('./routes/faq');
-const awsS3Routes = require('./routes/awsS3');
+const viewRoutes = require('./routes/view');
+const storyRoutes = require('./routes/story');
+// const blogByCategoryRoutes = require('./routes/blogByCategory');
+// const popularRoutes = require('./routes/popular');
+// const awsS3Routes = require('./routes/awsS3');
 
 
 // app
@@ -54,10 +56,12 @@ app.use('/api', userRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', tagRoutes);
 app.use('/api', formRoutes);
-app.use('/api', keywordRoutes);
 app.use('/api', draftRoutes);
-app.use('/api', popularRoutes);
 app.use('/api', faqRoutes);
+app.use('/api', viewRoutes);
+app.use('/api', storyRoutes);
+// app.use('/api', blogByCategoryRoutes);
+// app.use('/api', popularRoutes);
 // app.use('/api', awsS3Routes);
 
 //
