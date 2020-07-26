@@ -115,6 +115,7 @@ exports.create = (req, res) => {
 exports.list = (req, res) => {
     Story.find({})
         .populate('categories', '_id name slug')
+        .sort({ updatedAt: -1 })
         .populate('tags', '_id name slug')
         .populate('postedBy', '_id name username')
         .select('_id title slug excerpt categories tags postedBy createdAt updatedAt')
