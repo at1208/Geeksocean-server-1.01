@@ -346,7 +346,10 @@ exports.listSearch = (req, res) => {
                 }
                 res.json(blogs);
             }
-        ).select('-photo -body');
+        ).populate('categories', '_id name slug')
+        .populate('tags', '_id name slug')
+        .populate('postedBy', '_id name username profile')
+        .select('_id title slug excerpt categories tags postedBy createdAt updatedAt views')
     }
 };
 

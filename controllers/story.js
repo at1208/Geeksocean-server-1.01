@@ -129,7 +129,7 @@ exports.list = (req, res) => {
 };
 
 exports.listAllStoriesCategoriesTags = (req, res) => {
-    let limit = req.body.limit ? parseInt(req.body.limit) : 10;
+    let limit = req.body.limit ? parseInt(req.body.limit) : 5;
     let skip = req.body.skip ? parseInt(req.body.skip) : 0;
 
     let stories;
@@ -316,7 +316,7 @@ exports.listByUser = (req, res) => {
             .populate('tags', '_id name slug')
             .sort({ updatedAt: -1 })
             .populate('postedBy', '_id name username')
-            .select('_id title slug postedBy createdAt updatedAt')
+            .select('_id title slug postedBy createdAt updatedAt excerpt')
             .exec((err, data) => {
                 if (err) {
                     return res.status(400).json({

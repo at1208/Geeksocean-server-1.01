@@ -30,47 +30,18 @@ exports.preSignup = (req, res) => {
             <p>${process.env.CLIENT_URL}/auth/account/activate/${token}</p>
             <hr />
             <p>This email may contain sensetive information</p>
-            <p>https://seoblog.com</p>
+            <p>https://Geeksocean.com</p>
         `
         };
 
         sgMail.send(emailData).then(sent => {
+          console.log(sent)
             return res.json({
                 message: `Email has been sent to ${email}. Follow the instructions to activate your account.`
             });
         });
     });
 };
-
-// exports.signup = (req, res) => {
-//     // console.log(req.body);
-//     User.findOne({ email: req.body.email }).exec((err, user) => {
-//         if (user) {
-//             return res.status(400).json({
-//                 error: 'Email is taken'
-//             });
-//         }
-
-//         const { name, email, password } = req.body;
-//         let username = shortId.generate();
-//         let profile = `${process.env.CLIENT_URL}/profile/${username}`;
-
-//         let newUser = new User({ name, email, password, profile, username });
-//         newUser.save((err, success) => {
-//             if (err) {
-//                 return res.status(400).json({
-//                     error: err
-//                 });
-//             }
-//             // res.json({
-//             //     user: success
-//             // });
-//             res.json({
-//                 message: 'Signup success! Please signin.'
-//             });
-//         });
-//     });
-// };
 
 exports.signup = (req, res) => {
     const token = req.body.token;
