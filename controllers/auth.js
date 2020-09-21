@@ -38,7 +38,10 @@ exports.preSignup = (req, res) => {
           console.log(sent)
             return res.json({
                 message: `Email has been sent to ${email}. Follow the instructions to activate your account.`
-            });
+            })
+        })
+        .catch((err) => {
+          console.log(err.response.body)
         });
     });
 };
@@ -188,7 +191,7 @@ exports.forgotPassword = (req, res) => {
             <p>${process.env.CLIENT_URL}/auth/password/reset/${token}</p>
             <hr />
             <p>This email may contain sensetive information</p>
-            <p>https://seoblog.com</p>
+            <p>https://Geeksocean.com</p>
         `
         };
         // populating the db > user > resetPasswordLink
