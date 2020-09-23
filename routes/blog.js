@@ -14,13 +14,16 @@ const {
     listSearch,
     listByUser,
     blogComments,
-    blogCommentsById
+    blogCommentsById,
+    getPendingBlogs,
+    approveBlog,
+    updateSingleBlog
 } = require('../controllers/blog');
 
 const { requireSignin, adminMiddleware, authMiddleware, canUpdateDeleteBlog } = require('../controllers/auth');
 
 router.post('/blog', requireSignin, adminMiddleware, create);
-router.get('/blogs', list);
+router.get('/blogs', requireSignin, adminMiddleware, list);
 router.post('/blogs-categories-tags', listAllBlogsCategoriesTags);
 router.get('/blog/:slug',read);
 router.delete('/blog/:slug', requireSignin, adminMiddleware, remove);
@@ -29,8 +32,11 @@ router.get('/blog/photo/:slug', photo);
 router.post('/blogs/related', listRelated);
 router.get('/blogs/search', listSearch);
 
+router.get('/pending/blogs',getPendingBlogs)
+router.patch('/pending/blogs/approval/:blogId',requireSignin, adminMiddleware,approveBlog)
 
 // auth user blog crud
+router.get('/blog/notapprove/:slug',requireSignin, authMiddleware,updateSingleBlog);
 router.post('/user/blog', requireSignin, authMiddleware, create);
 router.get('/:username/blogs', listByUser);
 router.delete('/user/blog/:slug', requireSignin, authMiddleware, canUpdateDeleteBlog, remove);

@@ -22,8 +22,9 @@ exports.create = (req, res) => {
         }
 
         const { title, body, categories, tags, keywords,faqs } = fields;
-
+          console.log(title)
         if (!title || !title.length) {
+
             return res.status(400).json({
                 error: 'title is required'
             });
@@ -162,7 +163,7 @@ exports.listAllBlogsCategoriesTags = (req, res) => {
     let categories;
     let tags;
 
-    Blog.find({})
+    Blog.find({ status: true })
         .populate('categories', '_id name slug')
         .populate('tags', '_id name slug')
         .populate('postedBy', '_id name username profile')
@@ -202,7 +203,7 @@ exports.listAllBlogsCategoriesTags = (req, res) => {
 
 exports.read = (req, res) => {
     const slug = req.params.slug.toLowerCase();
-    Blog.findOne({ slug })
+    Blog.findOne({ slug, status: true })
         // .select("-photo")
         .populate('categories', '_id name slug')
         .populate('tags', '_id name slug')
@@ -400,3 +401,58 @@ module.exports.blogCommentsById = async (req,res) => {
    comments
   })
 }
+
+
+module.exports.getPendingBlogs = (req, res) => {
+   Blog.find({ status: false })
+       .populate('categories', '_id name slug')
+       .populate('tags', '_id name slug')
+       .populate('faqs','body')
+       .populate('postedBy', '_id name username')
+       .select('_id title body slug mtitle mdesc categories tags excerpt postedBy createdAt updatedAt faqs views')
+       .exec((err, result) => {
+       if(err){
+         return res.status(400).json({
+            error: err
+         })
+       }
+       res.status(200).json({
+         result
+       })
+     })
+}
+
+module.exports.approveBlog = (req, res) => {
+    const { blogId } = req.params;
+    Blog.findByIdAndUpdate(blogId,{ status: true })
+      .exec((err, result) => {
+        if(err){
+          return res.status(400).json({
+            error: err
+          })
+        }
+        res.status(200).json({
+          message: "Approved successfuly"
+        })
+      })
+}
+
+
+exports.updateSingleBlog = (req, res) => {
+    const slug = req.params.slug.toLowerCase();
+    Blog.findOne({ slug })
+        // .select("-photo")
+        .populate('categories', '_id name slug')
+        .populate('tags', '_id name slug')
+        .populate('faqs','body')
+        .populate('postedBy', '_id name username')
+        .select('_id title body slug mtitle mdesc categories tags postedBy createdAt updatedAt faqs views')
+        .exec((err, data) => {
+            if (err) {
+                return res.json({
+                    error: errorHandler(err)
+                });
+            }
+            res.json(data);
+        });
+};

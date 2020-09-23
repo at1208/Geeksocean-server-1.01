@@ -127,19 +127,16 @@ exports.photo = (req, res) => {
 
 exports.users = async (req,res) => {
   await User.find()
-  .select('username name role createdAt')
-  .exec((err,users) => {
+  .select('username name email createdAt')
+  .exec((err,userss) => {
     if(err){
       res.status(400).json({
         error:err
       })
     }
     res.status(200).json({
-      users
+      users: userss
     })
-  })
-  res.json({
-    users
   })
 }
 
