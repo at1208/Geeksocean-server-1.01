@@ -127,7 +127,7 @@ exports.photo = (req, res) => {
 
 exports.users = async (req,res) => {
   await User.find()
-  .select('username name email createdAt')
+  .select('username name email createdAt role')
   .exec((err,userss) => {
     if(err){
       res.status(400).json({
