@@ -316,7 +316,7 @@ exports.listRelated = (req, res) => {
     let limit = req.body.limit ? parseInt(req.body.limit) : 3;
     const { _id, categories } = req.body.blog;
 
-    Blog.find({ _id: { $ne: _id }, categories: { $in: categories } })
+    Blog.find({ _id: { $ne: _id }, categories: { $in: categories }, { status: true } })
         .limit(limit)
         .sort({ createdAt: -1 })
         .populate('postedBy', '_id name username profile')
@@ -362,7 +362,7 @@ exports.listByUser = (req, res) => {
             });
         }
         let userId = user._id;
-        Blog.find({ postedBy: userId })
+        Blog.find({ postedBy: userId, { status: true } })
             .populate('categories', '_id name slug')
             .populate('tags', '_id name slug')
             .sort({ updatedAt: -1 })
