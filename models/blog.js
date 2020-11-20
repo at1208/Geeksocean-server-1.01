@@ -7,7 +7,7 @@ const blogSchema = new mongoose.Schema(
             type: String,
             trim: true,
             min: 3,
-            max: 160,
+            max: 270,
             required: true
         },
         slug: {
