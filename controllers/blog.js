@@ -30,7 +30,7 @@ exports.create = (req, res) => {
             });
         }
 
-        if (title.length > 60) {
+        if (title.length > 150) {
             return res.status(400).json({
                 error: 'title length must be less than 150 characters'
             });
